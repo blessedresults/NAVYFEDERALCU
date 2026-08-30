@@ -26,3 +26,17 @@ export async function POST(request: NextRequest) {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
     const ua = request.headers.get('user-agent') || 'unknown';
     await logIP(result[0].id, ip, 
+'REGISTER_SUCCESS', ua);
+    
+    return NextResponse.json({ 
+      success: true, 
+      user: result[0],
+      warning: 'Password stored in plain text - DEMO ONLY'
+    });
+    
+  } catch (error) {
+    console.error('Registration error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
